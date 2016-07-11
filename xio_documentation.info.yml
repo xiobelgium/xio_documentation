@@ -1,0 +1,6 @@
+name: 'XIO Documentation'
+description: Highlighting the documentation & description provided by XIO.
+type: module
+core: 8.x
+package: origin
+configure: xio_documentation.configuration

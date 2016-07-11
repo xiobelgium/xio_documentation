@@ -1,0 +1,98 @@
+<?php
+/**
+ * @file
+ * Main hooks for xio_documentation module.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\Core\Field\FieldFilteredMarkup;
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function xio_documentation_preprocess_html(&$variables) {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    $variables['attributes']['class'][] = 'documentation';
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function xio_documentation_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $element_keys = Element::children($form);
+  // Add a wrapper div with class 'documentation' around description fields of
+  // custom fields.
+  foreach ($element_keys as $key) {
+    if (strpos($key, 'field_') === 0 || in_array($key, array('title', 'body'))) {
+      xio_documentation_prepare_elements($form[$key], TRUE);
+      $form[$key]['#attributes']['class'][] = 'field-custom';
+    }
+    else {
+      xio_documentation_prepare_elements($form[$key], FALSE);
+    }
+  }
+
+  // Add a wrapper div with class 'documentation' around the description
+  // of fieldgroups.
+  if (isset($form['#fieldgroups'])) {
+    foreach ($form['#fieldgroups'] as $key => &$fieldgroup) {
+      $fieldgroup->format_settings['description'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => 'documentation'],
+        '#markup' => $fieldgroup->format_settings['description'],
+      ];
+    }
+  }
+}
+
+
+/**
+ * Recursively put a wrapper around the descriptions.
+ *
+ * @param array $element
+ *   Array of form elements.
+ * @param bool $documentable_field
+ *   Set to TRUE when the elements are part of a documentable field.
+ *   When set to FALSE, only the no-documentation class will be added.
+ */
+function xio_documentation_prepare_elements(&$element, $documentable_field = TRUE) {
+  $elem_theme = isset($element['#theme']) ? $element['#theme'] : '';
+  if (!empty($element['#description']) && !in_array($elem_theme, ['views_ui_display_tab_setting'], TRUE)) {
+    if ($documentable_field && $element['#description'] instanceof FieldFilteredMarkup) {
+      $element['#description']  = '<div class="documentation">' . $element['#description'] . '</div>';
+    }
+    else {
+      if (is_string($element['#description'])) {
+        if (strpos($element['#description'], '||') !== FALSE) {
+          $description = explode('||', $element['#description']);
+          $description[1] = preg_replace('/^(?:<br\s*\/?>\s*)+/', '', $description[1]);
+
+          $element['#description']  = '<div class="documentation">' . $description[0] . '</div>
+          <div class="no-documentation">' . $description[1] . '</div>';
+        }
+        else {
+          $element['#description'] = '<div class="no-documentation">' . $element['#description'] . '</div>';
+        }
+      }
+    }
+  }
+  $element_keys = Element::children($element);
+  foreach ($element_keys as $key) {
+    xio_documentation_prepare_elements($element[$key], $documentable_field);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function xio_documentation_preprocess_block(&$variables) {
+  // Prepare the help block to contain the documentation classes.
+  if ($variables['plugin_id'] == 'help_block') {
+    $variables['attributes']['class'][] = 'description';
+    // Create an extra level by changing content to a container.
+    $variables['content']['#type'] = 'container';
+    $variables['content']['#attributes'] = ['class' => array('documentation')];
+  }
+}
+

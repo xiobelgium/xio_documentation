@@ -1,0 +1,9 @@
+xio-documentation:
+  version: 1.x
+  css:
+    theme:
+      css/xio-documentation.css: {}
+  js:
+    js/xio-documentation.js: {}
+  dependencies:
+    - core/jquery

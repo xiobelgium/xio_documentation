@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Installation file for xio_documentation.
+ */
+
+/**
+ * Enable the block in the content region.
+ */
+function xio_documentation_install() {
+  $plugin_id = 'documentation_block';
+  $theme = 'seven';
+
+  $blockEntityManager = \Drupal::service('entity.manager')->getStorage('block');
+  $block = $blockEntityManager->create(
+    array(
+      'id'=> $plugin_id,
+      'plugin' => $plugin_id,
+      'theme' => $theme,
+    )
+  );
+
+  $block->setWeight(5);
+  $block->setRegion('breadcrumb');
+  $block->save();
+}

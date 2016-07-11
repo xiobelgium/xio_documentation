@@ -1,0 +1,57 @@
+body.documentation #documentation-toggle {
+  color: #0074bd;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: right;
+  margin: -27px 2px 15px;
+}
+
+body.documentation .description .no-documentation {
+  background: url('/core/misc/icons/787878/questionmark-disc.svg') no-repeat #eff7fc;
+  background-position: 10px 10px;
+  background-size: 16px;
+  border: none;
+  color: #444444 !important;
+  display: block;
+  font-size: 11px !important;
+  line-height: 14px;
+  margin: 10px 0 !important;
+  padding: 10px 10px 8px 35px;
+}
+
+body.documentation .description .documentation,
+body.documentation .details-description .documentation {
+  background: url('/core/misc/icons/787878/pencil.svg') no-repeat #d9eaf5;
+  background-position: 10px 10px;
+  background-size: 18px;
+  border: none;
+  color: #444444 !important;
+  display: block;
+  font-size: 13px !important;
+  line-height: 18px;
+  margin: 10px 0 !important;
+  min-height: 0;
+  padding: 10px 10px 8px 35px;
+  overflow: hidden;
+}
+
+body.documentation .description .documentation p,
+body.documentation .description .documentation ol,
+body.documentation .description .documentation ul {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+body.documentation .description.documentation *:last-child {
+  margin-bottom: 0;
+}
+
+body.documentation #edit-title-0-value--description,
+body.documentation .filter-guidelines-item,
+body.documentation .filter-help {
+  display: none !important;
+}
+
+body.documentation-hidden .description {
+  display: none;
+}

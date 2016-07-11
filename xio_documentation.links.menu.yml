@@ -1,0 +1,5 @@
+xio_documentation.configuration:
+  title: 'XIO Documentation'
+  description: 'Manage documentation page intros.'
+  route_name: xio_documentation.configuration
+  parent: system.admin_config_ui

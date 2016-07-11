@@ -1,0 +1,7 @@
+xio_documentation.configuration:
+  path: '/admin/config/user-interface/documentation'
+  defaults:
+    _form: '\Drupal\xio_documentation\Form\XioDocumentationConfigurationForm'
+    _title: 'Documentation'
+  requirements:
+    _permission: 'administer documentation'
