@@ -1,0 +1,15 @@
+{
+  "name": "xio_documentation/xio_documentation",
+  "description": "Module for inline documentation",
+  "type": "drupal-module",
+  "homepage": "https://www.xio.be",
+  "authors": [
+    {
+      "name": "XIO dev team",
+      "homepage": "https://www.xio.be"
+    }
+  ],
+  "support": {},
+  "license": "GPL-2.0+",
+  "require": {}
+}
